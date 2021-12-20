@@ -1,5 +1,5 @@
 import { UsersClient } from "../proto/users_grpc_pb";
-import { credentials } from "grpc";
+import { credentials } from "@grpc/grpc-js";
 
 const port = 3000;
 
