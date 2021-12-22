@@ -1,0 +1,20 @@
+{
+  "name": "server",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "prebuild": "rm -rf proto/**/ proto/*.ts",
+    "build": "./proto-gen.sh",
+    "start": "ts-node server",
+    "client": "ts-node client"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@grpc/grpc-js": "^1.4.5",
+    "@grpc/proto-loader": "^0.6.7",
+    "ts-node": "^10.4.0",
+    "typescript": "^4.5.4"
+  }
+}
