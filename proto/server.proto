@@ -1,0 +1,14 @@
+syntax = "proto3";
+
+import "google/protobuf/empty.proto";
+
+package server;
+
+service Server {
+  rpc Ping(google.protobuf.Empty) returns (stream PingRs) {};
+}
+
+message PingRs {
+  int32 counter = 1;
+  int32 random = 2;
+}
