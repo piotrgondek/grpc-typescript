@@ -17,6 +17,14 @@ function App() {
     stream.on("data", (response) => {
       console.log(response.toObject());
     });
+
+    stream.on("end", () => {
+      console.log("response ended");
+    });
+
+    stream.on("error", (err) => {
+      console.error(err);
+    });
   }, []);
 
   return (

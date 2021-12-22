@@ -18,6 +18,10 @@ const serverHandlers: ServerHandlers = {
         counter,
         random: Math.floor(Math.random() * counter),
       });
+
+      if (counter > 40) {
+        call.end();
+      }
     }, 1500);
   },
 };
