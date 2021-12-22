@@ -16,7 +16,7 @@ const serverHandlers: ServerHandlers = {
       counter += 1;
       call.write({
         counter,
-        delay: Math.floor(Math.random() * counter),
+        random: Math.floor(Math.random() * counter),
       });
     }, 1500);
   },
