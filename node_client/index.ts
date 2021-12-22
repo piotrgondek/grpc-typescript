@@ -4,7 +4,7 @@ import { ProtoGrpcType } from "./proto/server";
 import { PingRs } from "./proto/server/PingRs";
 import { ServerClient } from "./proto/server/Server";
 
-const serverPackageDefinition = protoLoader.loadSync("./proto/server.proto");
+const serverPackageDefinition = protoLoader.loadSync("../proto/server.proto");
 const proto = grpc.loadPackageDefinition(
   serverPackageDefinition
 ) as unknown as ProtoGrpcType;

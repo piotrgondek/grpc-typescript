@@ -3,7 +3,7 @@ import * as protoLoader from "@grpc/proto-loader";
 import { ProtoGrpcType } from "./proto/server";
 import { ServerHandlers } from "./proto/server/Server";
 
-const serverPackageDefinition = protoLoader.loadSync("./proto/server.proto");
+const serverPackageDefinition = protoLoader.loadSync("../proto/server.proto");
 const proto = grpc.loadPackageDefinition(
   serverPackageDefinition
 ) as unknown as ProtoGrpcType;
