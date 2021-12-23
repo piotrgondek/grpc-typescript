@@ -8,21 +8,26 @@ const proto = grpc.loadPackageDefinition(
   serverPackageDefinition
 ) as unknown as ProtoGrpcType;
 
-let counter = 0;
-
 const serverHandlers: ServerHandlers = {
   Ping: (call) => {
-    setInterval(() => {
+    let counter = 0;
+
+    const timeoutImpl = () => {
       counter += 1;
+      const random = Math.floor(Math.random() * counter);
       call.write({
         counter,
-        random: Math.floor(Math.random() * counter),
+        random: random,
       });
 
-      if (counter > 40) {
+      if (counter > 66) {
         call.end();
+      } else {
+        setTimeout(timeoutImpl, 10 * random);
       }
-    }, 1500);
+    };
+
+    setTimeout(timeoutImpl);
   },
 };
 
