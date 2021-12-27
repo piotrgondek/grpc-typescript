@@ -1,13 +1,13 @@
 import { Action, configureStore, ThunkAction } from "@reduxjs/toolkit";
 import { setupListeners } from "@reduxjs/toolkit/dist/query";
-import { pingApi } from "../services/pingAPI";
+import baseAPI from "../services/baseAPI";
 
 export const store = configureStore({
   reducer: {
-    [pingApi.reducerPath]: pingApi.reducer,
+    [baseAPI.reducerPath]: baseAPI.reducer,
   },
   middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware().concat(pingApi.middleware),
+    getDefaultMiddleware().concat(baseAPI.middleware),
 });
 
 setupListeners(store.dispatch);

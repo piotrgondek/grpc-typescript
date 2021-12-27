@@ -2,6 +2,7 @@ import React from "react";
 import logo from "./logo.svg";
 import "./App.css";
 import { pingRsSelectors, useGetPingsQuery } from "./services/pingAPI";
+import Pow from "./features/pow/Pow";
 
 function App() {
   const [counter, setCounter] = React.useState<number>(0);
@@ -27,6 +28,9 @@ function App() {
   return (
     <div className="App">
       <header className="App-header">
+        <div>
+          <Pow />
+        </div>
         <img src={logo} className="App-logo" alt="logo" />
         <button className="button" type="button" onClick={increaseCounter}>
           More

@@ -1,12 +1,24 @@
 import * as grpc from "@grpc/grpc-js";
 import * as protoLoader from "@grpc/proto-loader";
-import { ProtoGrpcType } from "./proto/server";
+import { MathServiceHandlers } from "./proto/math/MathService";
+import { ProtoGrpcType as ServerProtoGrpcType } from "./proto/server";
+import { ProtoGrpcType as MathProtoGrpcType } from "./proto/math";
 import { ServerHandlers } from "./proto/server/Server";
 
-const serverPackageDefinition = protoLoader.loadSync("../proto/server.proto");
-const proto = grpc.loadPackageDefinition(
-  serverPackageDefinition
-) as unknown as ProtoGrpcType;
+const getProto = <T>(filename: string) => {
+  const serverPackageDefinition = protoLoader.loadSync(filename);
+  return grpc.loadPackageDefinition(serverPackageDefinition) as unknown as T;
+};
+
+const serverProto: ServerProtoGrpcType = getProto("../proto/server.proto");
+const mathProto: MathProtoGrpcType = getProto("../proto/math.proto");
+
+const mathServiceHandlers: MathServiceHandlers = {
+  pow: ({ request: { base = 0, exponent = 0 } }, res) => {
+    const result = Math.pow(base, exponent);
+    res(null, { result });
+  },
+};
 
 const serverHandlers: ServerHandlers = {
   Ping: (call) => {
@@ -33,7 +45,8 @@ const serverHandlers: ServerHandlers = {
 
 const main = () => {
   const server = new grpc.Server();
-  server.addService(proto.server.Server.service, serverHandlers);
+  server.addService(mathProto.math.MathService.service, mathServiceHandlers);
+  server.addService(serverProto.server.Server.service, serverHandlers);
   server.bindAsync(
     "localhost:1987",
     grpc.ServerCredentials.createInsecure(),

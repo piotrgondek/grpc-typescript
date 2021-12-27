@@ -1,21 +1,17 @@
 import { createEntityAdapter, EntityState } from "@reduxjs/toolkit";
-import { createApi, fakeBaseQuery } from "@reduxjs/toolkit/query/react";
 import { Empty } from "google-protobuf/google/protobuf/empty_pb";
 import { ClientReadableStream } from "grpc-web";
 import getClient from "../app/getClient";
 import { PingRs } from "../proto/server_pb";
+import baseAPI from "./baseAPI";
 
-type PingRsObj = ReturnType<typeof PingRs.toObject>;
-
-const pingRsAdapter = createEntityAdapter<PingRsObj>({
+const pingRsAdapter = createEntityAdapter<PingRs.AsObject>({
   selectId: (model) => model.counter,
 });
 
-export const pingApi = createApi({
-  reducerPath: "pingApi",
-  baseQuery: fakeBaseQuery(),
+export const pingApi = baseAPI.injectEndpoints({
   endpoints: (builder) => ({
-    getPings: builder.query<EntityState<PingRsObj>, number>({
+    getPings: builder.query<EntityState<PingRs.AsObject>, number>({
       queryFn: () => ({
         data: {
           ids: [],
@@ -28,14 +24,9 @@ export const pingApi = createApi({
 
         stream.on("data", (response) => {
           const res = response.toObject();
-          console.log("Response:", res);
           updateCachedData((draft) => {
             pingRsAdapter.upsertOne(draft, res);
           });
-        });
-
-        stream.on("end", () => {
-          console.log("response ended");
         });
       },
     }),

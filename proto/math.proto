@@ -1,0 +1,16 @@
+syntax = "proto3";
+
+package math;
+
+service MathService {
+  rpc pow(PowRq) returns (PowRs) {};
+}
+
+message PowRq {
+  int32 base = 1;
+  int32 exponent = 2;
+}
+
+message PowRs {
+  int32 result = 1;
+}
