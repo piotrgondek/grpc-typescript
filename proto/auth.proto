@@ -1,0 +1,39 @@
+syntax = "proto3";
+
+import "google/protobuf/empty.proto";
+
+package auth;
+
+service AuthService {
+  rpc signin(SigninRq) returns (SigninRs) {};
+  rpc signout(SignoutRq) returns (google.protobuf.Empty) {};
+  rpc verify(VerifyRq) returns (stream VerifyRs) {};
+}
+
+message SigninRq {
+  string login = 1;
+  string passwd = 2;
+}
+
+message SigninRs {
+  string token = 1;
+}
+
+message SignoutRq {
+  string token = 1;
+}
+
+message VerifyRq {
+  string token = 1;
+}
+
+enum Status {
+  SIGN_IN = 0;
+  SIGN_OUT = 1;
+  TIME_OUT = 2;
+  VERIFYING = 3;
+}
+
+message VerifyRs {
+  Status status = 1;
+}
